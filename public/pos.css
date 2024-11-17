@@ -115,3 +115,30 @@
     cursor: pointer;
 }
 
+.products-list{
+    height: 80vh;
+    overflow-y: scroll;
+}
+.sidebar-menu-pos{
+    height: calc(100vh - 100px);
+    overflow-y: scroll;
+}
+.sidebar-menu-pos {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.sidebar-menu-pos::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+.sub-menus{
+    width: calc(100vw - 400px);
+    overflow-x: scroll;
+}
+
+.sub-menus{
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.sub-menus::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}

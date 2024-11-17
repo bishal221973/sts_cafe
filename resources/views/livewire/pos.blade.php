@@ -33,18 +33,18 @@
             <tbody>
                 @if (session()->get('data'))
 
-                @foreach (session()->get('data') as $item1)
-                    <tr>
-                        <td>{{ $item1['product']->name }}</td>
-                        <td>{{ $item1['quantity'] }}</td>
-                        <td>{{ $item1['product']->price }}</td>
-                        <td>{{ $item1['product']->price * $item1['quantity'] }}</td>
-                    </tr>
+                    @foreach (session()->get('data') as $item1)
+                        <tr>
+                            <td>{{ $item1['product']->name }}</td>
+                            <td>{{ $item1['quantity'] }}</td>
+                            <td>{{ $item1['product']->price }}</td>
+                            <td>{{ $item1['product']->price * $item1['quantity'] }}</td>
+                        </tr>
 
-                    @php
-                        $total += $item1['product']->price * $item1['quantity'];
-                    @endphp
-                @endforeach
+                        @php
+                            $total += $item1['product']->price * $item1['quantity'];
+                        @endphp
+                    @endforeach
                 @endif
             </tbody>
         </table>
@@ -63,12 +63,12 @@
             <label class="print-font-size1">Total: Rs {{ round($total, 2) }}</label>
         </div>
         <div class="d-flex">
-            <label class="print-font-size1">Printed By: <b>{{auth()->user()->name}}</b></label>
+            <label class="print-font-size1">Printed By: <b>{{ auth()->user()->name }}</b></label>
         </div>
 
         <div class="d-flex justify-content-between">
             <div>
-                <label class="print-font-size1">{{now()->format('Y/m/d')}} {{date('h:i A')}}</label>
+                <label class="print-font-size1">{{ now()->format('Y/m/d') }} {{ date('h:i A') }}</label>
             </div>
             <div>
                 <small class="text-small">Warning: Restriction of Permission by Management</small>
@@ -83,20 +83,22 @@
                     <img src="{{ asset('logo.jpg') }}" width="100%" alt="">
                 </div>
             </div>
-            <button
-                    class="text-white d-block px-3 rounded pos-sidebar-menu mb-1 {{ !$selectedCategory  ? 'active' : '' }}"
-                    wire:click="selectCategory(null)">All</button>
-            @foreach ($categories as $category)
+            <div class="sidebar-menu-pos">
                 <button
-                    class="text-white d-block px-3 rounded pos-sidebar-menu mb-1 {{ $selectedCategory == $category->id ? 'active' : '' }}"
-                    wire:click="selectCategory({{ $category->id }})">{{ $category->name }}</button>
-            @endforeach
+                    class="text-white d-block px-3 rounded pos-sidebar-menu mb-1 {{ !$selectedCategory ? 'active' : '' }}"
+                    wire:click="selectCategory(null)">All</button>
+                @foreach ($categories as $category)
+                    <button
+                        class="text-white d-block px-3 rounded pos-sidebar-menu mb-1 {{ $selectedCategory == $category->id ? 'active' : '' }}"
+                        wire:click="selectCategory({{ $category->id }})">{{ $category->name }}</button>
+                @endforeach
+            </div>
         </div>
         <div class="pos-content">
             <div class="px-5 py-2">
                 <div class="bg-white pos-nav mb-3 d-flex justify-content-between">
                     <div></div>
-                    <div>{{auth()->user()->name}}</div>
+                    <div>{{ auth()->user()->name }}</div>
                 </div>
 
                 <div class="row">
@@ -106,10 +108,11 @@
                                 <a href="#" class="bg-info btn text-white"
                                     wire:click.prevent="filterProducts">All</a>
                             @else
-                                <button class="btn mr-1 {{!$selectedSubCategory ? 'bg-info  text-white' : ''}}"
+                                <button class="btn mr-1 {{ !$selectedSubCategory ? 'bg-info  text-white' : '' }}"
                                     wire:click="selectSubCategory(null)">All</button>
                                 @foreach ($subCategories as $subCategory)
-                                    <button class="text-dark btn text-white mr-1 {{$selectedSubCategory == $subCategory->id ? 'bg-info  text-white' : ''}}"
+                                    <button
+                                        class="text-dark btn text-white mr-1 {{ $selectedSubCategory == $subCategory->id ? 'bg-info  text-white' : '' }}"
                                         wire:click="selectSubCategory({{ $subCategory->id }})">{{ $subCategory->name }}</button>
                                 @endforeach
                             @endif
