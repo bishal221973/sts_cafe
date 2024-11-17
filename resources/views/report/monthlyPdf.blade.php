@@ -42,7 +42,7 @@
 <body>
     <h1 class="text-center m-0 p-0">{{settings()->get('app_name_print', $default = 'STS Cinema')}}</h1>
     <h5 class="text-center m-0 p-0">{{settings()->get('address', $default = 'Dhangadhi')}}</h5>
-    <i>(Daily Report)</i>
+    <i>(Monthly Report)</i>
     <table>
         <tr>
             <th>S.N.</th>

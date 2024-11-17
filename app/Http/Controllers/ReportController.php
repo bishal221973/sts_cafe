@@ -34,7 +34,7 @@ class ReportController extends Controller
         if (request()->type) {
             if (request()->type == 'pdf') {
                 $reports = $reports->get();
-                $pdf = PDF::loadView('report.normalPdf', ['reports' => $reports])
+                $pdf = PDF::loadView('report.monthlyPdf', ['reports' => $reports])
                     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
                 // Generate and download the PDF
@@ -56,8 +56,20 @@ class ReportController extends Controller
         $reports = Sold::select('product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'))
             ->with('product') // Assuming you have a relationship 'product'
             ->groupBy('product_id')
-            ->latest() // Order by latest, you can adjust this if needed
-            ->paginate(10); // Paginate the results
+            ->latest();
+
+            if (request()->type) {
+                if (request()->type == 'pdf') {
+                    $reports = $reports->get();
+                    $pdf = PDF::loadView('report.productWisepdf', ['reports' => $reports])
+                        ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+                    // Generate and download the PDF
+                    return $pdf->stream('file.pdf');
+                }
+            } else {
+                $reports = $reports->paginate(10);
+            }
         return view('report.productWise', compact('reports'));
     }
 
@@ -66,8 +78,19 @@ class ReportController extends Controller
         $reports = Sold::whereNotNull('user_id')->select('user_id', 'product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'))
             ->with('user')  // Assuming you have a relationship 'product'
             ->groupBy('user_id', 'product_id')  // Group by both user and product
-            ->latest()  // Order by latest, you can adjust this if needed
-            ->paginate(10); // Paginate the results
+            ->latest();
+            if (request()->type) {
+                if (request()->type == 'pdf') {
+                    $reports = $reports->get();
+                    $pdf = PDF::loadView('report.userWisepdf', ['reports' => $reports])
+                        ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+                    // Generate and download the PDF
+                    return $pdf->stream('file.pdf');
+                }
+            } else {
+                $reports = $reports->paginate(10);
+            }
         return view('report.userWise', compact('reports'));
     }
 }
