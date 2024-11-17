@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     public function index (){
-        $users=User::latest()->paginate(10);
+        $users=User::latest()->paginate(request()->per_page ?? 10);
         $user=new User();
         return view('user.index',compact('users','user'));
     }
@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
     public function edit (User $user){
-        $users=User::latest()->paginate(10);
+        $users=User::latest()->paginate(request()->per_page ?? 10);
         return view('user.index',compact('users','user'));
     }
 

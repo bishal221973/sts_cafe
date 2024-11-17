@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index(){
         $categories=Category::latest()->get();
         $subcategories=new SubCategory();
-        $products=Product::with('category','subCategory')->latest()->paginate(10);
+        $products=Product::with('category','subCategory')->latest()->paginate(request()->per_page ?? 10);
         $product=new Product();
         return view('product.index',compact('subcategories','categories','products','product'));
     }
@@ -43,7 +43,7 @@ class ProductController extends Controller
     public function edit(Product $product){
         $categories=Category::latest()->get();
         $subcategories=SubCategory::where("category_id", $product->category_id)->get();
-        $products=Product::with('category','subCategory')->latest()->paginate(10);
+        $products=Product::with('category','subCategory')->latest()->paginate(request()->per_page ?? 10);
         return view('product.index',compact('categories','products','product','subcategories'));
     }
 

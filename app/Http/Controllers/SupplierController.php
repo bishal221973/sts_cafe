@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SupplierController extends Controller
 {
     public function index(){
-        $suppliers=Supplier::latest()->paginate(10);
+        $suppliers=Supplier::latest()->paginate(request()->per_page ?? 10);
         $supplier=new Supplier();
         return view('supplier.index',compact('suppliers','supplier'));
     }
@@ -28,7 +28,7 @@ class SupplierController extends Controller
     }
 
     public function edit(Supplier $supplier){
-        $suppliers=Supplier::latest()->paginate(10);
+        $suppliers=Supplier::latest()->paginate(request()->per_page ?? 10);
         return view('supplier.index',compact('suppliers','supplier'));
     }
 

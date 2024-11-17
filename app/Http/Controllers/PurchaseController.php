@@ -11,7 +11,7 @@ class PurchaseController extends Controller
 {
     public function index()
     {
-        $purchases = Purchase::latest()->with('product', 'supplier')->paginate(10);
+        $purchases = Purchase::latest()->with('product', 'supplier')->paginate(request()->per_page ?? 10);
         $purchase = new Purchase();
         $products = new Product();
         return view('purchase.index', compact('purchases', 'purchase', 'products'));
@@ -49,7 +49,7 @@ class PurchaseController extends Controller
     {
         $products = Product::latest()->get();
         $suppliers = Supplier::latest()->get();
-        $purchases = Purchase::latest()->with('product', 'supplier')->paginate(10);
+        $purchases = Purchase::latest()->with('product', 'supplier')->paginate(request()->per_page ?? 10);
         return view('purchase.index', compact('purchases', 'purchase', 'products', 'suppliers'));
     }
 
@@ -77,7 +77,7 @@ class PurchaseController extends Controller
     }
 
     public function stock(){
-        $products = Product::latest()->paginate(10);
+        $products = Product::latest()->paginate(request()->per_page ?? 10);
         return view('purchase.stock',compact('products'));
     }
 }

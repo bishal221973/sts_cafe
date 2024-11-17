@@ -10,7 +10,7 @@ class SubCategoryController extends Controller
 {
     public function index(){
         $categories=Category::latest()->get();
-        $subcategories=SubCategory::with('category')->latest()->paginate(10);
+        $subcategories=SubCategory::with('category')->latest()->paginate(request()->per_page ?? 10);
         return view('subCategory.index',[
             'categories'=>$categories,
             'subCategory'=>new SubCategory(),
@@ -28,7 +28,7 @@ class SubCategoryController extends Controller
     }
     public function edit(SubCategory $subCategory){
         $categories=Category::latest()->get();
-        $subcategories=SubCategory::with('category')->latest()->paginate(10);
+        $subcategories=SubCategory::with('category')->latest()->paginate(request()->per_page ?? 10);
         return view('subCategory.index',[
             'categories'=>$categories,
             'subCategory'=>$subCategory,

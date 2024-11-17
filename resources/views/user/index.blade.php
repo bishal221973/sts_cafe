@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Password <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="password">
+                                    <input type="password" class="form-control" name="password">
                                     @error('password')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror
@@ -35,7 +35,7 @@
 
                                 <div class="form-group">
                                     <label>Confirmed password <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="password_confirmation">
+                                    <input type="password" class="form-control" name="password_confirmation">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-info w-100">{{$user->id ? 'Update' : 'Save'}}</button>

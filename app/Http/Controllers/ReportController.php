@@ -22,7 +22,7 @@ class ReportController extends Controller
                 return $pdf->stream('file.pdf');
             }
         } else {
-            $reports = $reports->paginate(10);
+            $reports = $reports->paginate(request()->per_page ?? 10);
         }
         return view('report.normal', compact('reports'));
     }
@@ -41,14 +41,14 @@ class ReportController extends Controller
                 return $pdf->stream('file.pdf');
             }
         } else {
-            $reports = $reports->paginate(10);
+            $reports = $reports->paginate(request()->per_page ?? 10);
         }
         return view('report.monthly', compact('reports'));
     }
 
     public function normalPdf()
     {
-        $reports = Sold::latest()->with('product')->paginate(10);
+        $reports = Sold::latest()->with('product')->paginate(request()->per_page ?? 10);
     }
 
     public function productWise()
@@ -68,7 +68,7 @@ class ReportController extends Controller
                     return $pdf->stream('file.pdf');
                 }
             } else {
-                $reports = $reports->paginate(10);
+                $reports = $reports->paginate(request()->per_page ?? 10);
             }
         return view('report.productWise', compact('reports'));
     }
@@ -89,7 +89,7 @@ class ReportController extends Controller
                     return $pdf->stream('file.pdf');
                 }
             } else {
-                $reports = $reports->paginate(10);
+                $reports = $reports->paginate(request()->per_page ?? 10);
             }
         return view('report.userWise', compact('reports'));
     }

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function index(){
-        $categories=Category::latest()->paginate(10);
+        $categories=Category::latest()->paginate(request()->per_page ?? 10);
         return view('category.index',[
             'categories'=>$categories,
             'category'=>new Category(),
@@ -24,7 +24,7 @@ class CategoryController extends Controller
     }
 
     public function edit(Category $category){
-        $categories=Category::latest()->paginate(10);
+        $categories=Category::latest()->paginate(request()->per_page ?? 10);
         return view('category.index',[
             'categories'=>$categories,
             'category'=>$category,
