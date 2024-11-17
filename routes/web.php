@@ -92,7 +92,9 @@ Route::prefix('user')->group(function(){
 Route::get('setting',[SettingController::class,'index'])->name('setting.index');
 Route::post('setting',[SettingController::class,'syncSetting'])->name('setting.syncSetting');
 Route::prefix('report')->group(function(){
-    Route::get('normal-report',[ReportController::class,'normal'])->name('report.normal');
+    Route::get('daily-report',[ReportController::class,'normal'])->name('report.normal');
+    Route::get('monthly-report',[ReportController::class,'monthly'])->name('report.monthly');
     Route::get('normal-report-pdf',[ReportController::class,'normalPdf'])->name('report.normalPdf');
     Route::get('product-wise-report',[ReportController::class,'productWise'])->name('report.productWise');
+    Route::get('user-wise-report',[ReportController::class,'userWise'])->name('report.userWise');
 });

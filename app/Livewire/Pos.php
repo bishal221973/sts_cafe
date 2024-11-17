@@ -131,6 +131,7 @@ class Pos extends Component
                     'product_id' => $item['product']->id,
                     'price' => $item['product']->price,
                     'sn_number' => $uniqueStr,
+                    'user_id'=>auth()->user()->id,
                 ]);
                 $product = Product::find($item['product']->id);
 
