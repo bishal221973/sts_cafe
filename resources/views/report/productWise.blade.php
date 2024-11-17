@@ -19,6 +19,9 @@
                     <h5 class="text-center m-0 p-0">{{ settings()->get('address', $default = 'Dhangadhi') }}</h5>
                     <i class="d-block text-center mb-3">(Product wise Report)</i>
                 </div>
+                <div class="d-flex">
+                    <x-per-page></x-per-page>
+                </div>
                 <x-table-component :headers="['S.N', 'Product', 'Product Count', 'Total Price']">
                     @foreach ($reports as $report)
                         <tr class="text-center">

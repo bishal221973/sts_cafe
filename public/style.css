@@ -65,3 +65,11 @@ body{
 .img-preview img{
     height: 100px;
 }
+@media print {
+    .noPrint {
+        display: none !important;
+    }
+    .printable-bill{
+        display: block !important;
+    }
+}

@@ -133,6 +133,17 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    @if (!$product->id)
+                        <div class="d-flex">
+                            <x-per-page></x-per-page>
+                        </div>
+                    @else
+                        <div class="d-flex justify-content-end mb-3">
+                            <button class="btn btn-secondary" onclick="window.history.back()">
+                                <i class="fa-solid fa-arrow-left"></i> Back
+                            </button>
+                        </div>
+                    @endif
                     <x-table-component :headers="['S.N', 'Image', 'Name', 'Price', 'Category', 'Sub Category', 'Action']">
                         @foreach ($products as $product)
                             <tr class="text-center">

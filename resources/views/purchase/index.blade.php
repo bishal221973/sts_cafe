@@ -25,6 +25,17 @@
 
     <div class="card">
         <div class="card-body">
+            @if (!$purchase->id)
+                <div class="d-flex">
+                    <x-per-page></x-per-page>
+                </div>
+            @else
+                <div class="d-flex justify-content-end mb-3">
+                    <button class="btn btn-secondary" onclick="window.history.back()">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            @endif
             <x-table-component :headers="['S.N', 'Product', 'Supplier', 'Quantity', 'Action']">
                 @foreach ($purchases as $item)
                     <tr class="text-center">
@@ -57,46 +68,51 @@
 
 
                 @if ($purchase->id)
-                <form action="{{ $purchase->id ? route('purchase.update', $purchase) : route('purchase.store') }}" method="POST"
-                    enctype="multipart/form-data">
-                    <div class="modal-body">
-                        @csrf
-                        @isset($purchase->id)
-                            @method('put')
-                        @endisset
+                    <form action="{{ $purchase->id ? route('purchase.update', $purchase) : route('purchase.store') }}"
+                        method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            @csrf
+                            @isset($purchase->id)
+                                @method('put')
+                            @endisset
 
-                        <div class="form-group">
-                            <label class="m-0 p-0">Product</label>
-                            <select name="product_id" required class="form-control" id="">
-                                <option value="">Select product</option>
-                                @foreach ($products as $product)
-                                    <option value="{{ $product->id }}" {{$purchase->product_id == $product->id ? 'selected' : ''}}>{{ $product->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label class="m-0 p-0">Product</label>
+                                <select name="product_id" required class="form-control" id="">
+                                    <option value="">Select product</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}"
+                                            {{ $purchase->product_id == $product->id ? 'selected' : '' }}>
+                                            {{ $product->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="m-0 p-0">Supplier</label>
+                                <select name="supplier_id" required class="form-control" id="">
+                                    <option value="">Select product</option>
+                                    @foreach ($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}"
+                                            {{ $supplier->id == $purchase->supplier_id ? 'selected' : '' }}>
+                                            {{ $supplier->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="m-0 p-0">Quantity</label>
+                                <input type="number" required name="quantity"
+                                    value="{{ old('wuantity', $purchase->quantity) }}" class="form-control">
+                            </div>
+
+
                         </div>
-
-                        <div class="form-group">
-                            <label class="m-0 p-0">Supplier</label>
-                            <select name="supplier_id" required class="form-control" id="">
-                                <option value="">Select product</option>
-                                @foreach ($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}" {{$supplier->id == $purchase->supplier_id ? 'selected' : ''}}>{{ $supplier->name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary">Update</button>
                         </div>
-
-                        <div class="form-group">
-                            <label class="m-0 p-0">Quantity</label>
-                            <input type="number" required name="quantity" value="{{old('wuantity',$purchase->quantity)}}" class="form-control">
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Update</button>
-                    </div>
-                </form>
+                    </form>
                 @endif
 
             </div>

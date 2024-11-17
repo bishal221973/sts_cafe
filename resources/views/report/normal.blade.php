@@ -18,13 +18,16 @@
                     <h5 class="text-center m-0 p-0">{{ settings()->get('address', $default = 'Dhangadhi') }}</h5>
                     <i class="d-block text-center mb-3">(Daily Report)</i>
                 </div>
-                <x-table-component :headers="['S.N', 'Product', 'Product', 'Date']">
+                <div class="d-flex">
+                    <x-per-page></x-per-page>
+                </div>
+                <x-table-component :headers="['S.N', 'Product', 'Unit Price', 'S.N number']">
                     @foreach ($reports as $report)
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $report->product->name }}</td>
                             <td>Rs. {{ $report->price }}</td>
-                            <td>{{ $report->created_at->format('Y/m/d') }}</td>
+                            <td>{{ $report->sn_number }}</td>
                         </tr>
                     @endforeach
                 </x-table-component>

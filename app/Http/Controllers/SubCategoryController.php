@@ -37,8 +37,15 @@ class SubCategoryController extends Controller
     }
     public function edit(SubCategory $subCategory)
     {
+        $search=request()->search;
         $categories = Category::latest()->get();
-        $subcategories = SubCategory::with('category')->latest()->paginate(request()->per_page ?? 10);
+        $subcategories = SubCategory::with('category')->latest();
+        if (request()->search) {
+            $subcategories = $subcategories->where('name', 'LIKE', '%' . request()->search . '%')->orWhereHas('category',function($query) use($search){
+                $query->where('name','like','%'.$search.'%');
+            });
+        }
+        $subcategories = $subcategories->paginate(request()->per_page ?? 10);
         return view('subCategory.index', [
             'categories' => $categories,
             'subCategory' => $subCategory,

@@ -11,7 +11,16 @@ class PurchaseController extends Controller
 {
     public function index()
     {
-        $purchases = Purchase::latest()->with('product', 'supplier')->paginate(request()->per_page ?? 10);
+        $purchases = Purchase::latest()->with('product', 'supplier');
+        $search = request()->search;
+        if (request()->search) {
+            $purchases = $purchases->whereHas('product', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })->orWhereHas('supplier', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })->orWhere('quantity', $search);
+        }
+        $purchases = $purchases->paginate(request()->per_page ?? 10);
         $purchase = new Purchase();
         $products = new Product();
         return view('purchase.index', compact('purchases', 'purchase', 'products'));
@@ -55,7 +64,7 @@ class PurchaseController extends Controller
 
     public function update(Request $request, Purchase $purchase)
     {
-        $inStock=$purchase->quantity;
+        $inStock = $purchase->quantity;
         $data = $request->validate([
             'product_id' => 'required',
             'supplier_id' => 'required',
@@ -66,7 +75,7 @@ class PurchaseController extends Controller
         $product = Product::find($purchase->product_id);
 
         $oldStock = $product->stock;
-        $oldStock = $oldStock -$inStock;
+        $oldStock = $oldStock - $inStock;
         $oldStock = $oldStock + $request->quantity;
 
         $product->update([
@@ -76,8 +85,13 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.index')->with('success', "Selected purchase info have been changed.");
     }
 
-    public function stock(){
-        $products = Product::latest()->paginate(request()->per_page ?? 10);
-        return view('purchase.stock',compact('products'));
+    public function stock()
+    {
+        $products = Product::latest();
+        if (request()->search) {
+            $products = $products->where("name", "LIKE", "%" . request()->search . "%")->orWhere('stock', request()->search);
+        }
+        $products = $products->paginate(request()->per_page ?? 10);
+        return view('purchase.stock', compact('products'));
     }
 }

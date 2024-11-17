@@ -19,7 +19,9 @@
                             <select name="category_id" class="form-control">
                                 <option value="">Select category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"  {{old('category',$subCategory->category_id == $category->id ? 'selected' : '')}} >{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category', $subCategory->category_id == $category->id ? 'selected' : '') }}>
+                                        {{ $category->name }}</option>
                                 @endforeach
                             </select>
                             @error('category_id')
@@ -42,7 +44,18 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <x-table-component :headers="['S.N', 'Category','Sub Category', 'Action']">
+                    @if (!$subCategory->id)
+                        <div class="d-flex">
+                            <x-per-page></x-per-page>
+                        </div>
+                    @else
+                        <div class="d-flex justify-content-end mb-3">
+                            <button class="btn btn-secondary" onclick="window.history.back()">
+                                <i class="fa-solid fa-arrow-left"></i> Back
+                            </button>
+                        </div>
+                    @endif
+                    <x-table-component :headers="['S.N', 'Category', 'Sub Category', 'Action']">
                         @foreach ($subcategories as $subcategory)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>

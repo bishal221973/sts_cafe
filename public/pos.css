@@ -102,6 +102,7 @@
 .printable-bill{
     display: none;
 }
+
 @media print {
     .noPrint {
         display: none !important;

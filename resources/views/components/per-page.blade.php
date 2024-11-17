@@ -1,6 +1,6 @@
-<div class="d-flex w-100 justify-content-between">
-    <div class="d-flex align-items-center mb-3">
-        Per page
+<div class="d-flex w-100 justify-content-between noPrint">
+    <div class="d-flex align-items-center mb-3 noPrint">
+        <span class="noPrint">Per page</span>
         <form action="{{ route(Route::currentRouteName()) }}">
             @if (request('per_page'))
                 <select name="per_page" id="" class="ml-2 form-control" onchange="this.form.submit()"
@@ -26,7 +26,7 @@
             @endif
         </form>
     </div>
-    <div class="d-flex">
+    <div class="d-flex noPrint">
         <form action="{{ route(Route::currentRouteName()) }}">
             <div class="d-flex">
                 @if (request('per_page'))

@@ -1,7 +1,5 @@
 
-<div class="d-flex">
-    <x-per-page></x-per-page>
-</div>
+
 <table class="table table-hover">
     <thead>
         <tr class="text-center">

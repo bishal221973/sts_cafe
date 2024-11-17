@@ -11,7 +11,13 @@ class ReportController extends Controller
 {
     public function normal()
     {
+        $search = request()->search;
         $reports = Sold::latest()->with('product')->whereDate('created_at', today());
+        if (request()->search) {
+            $reports = $reports->whereHas('product', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
+        }
         if (request()->type) {
             if (request()->type == 'pdf') {
                 $reports = $reports->get();
@@ -29,8 +35,14 @@ class ReportController extends Controller
 
     public function monthly()
     {
+        $search = request()->search;
         $reports = Sold::latest()->with('product')->whereMonth('created_at', now()->month)  // Filters by current month
             ->whereYear('created_at', now()->year);
+        if (request()->search) {
+            $reports = $reports->whereHas('product', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
+        }
         if (request()->type) {
             if (request()->type == 'pdf') {
                 $reports = $reports->get();
@@ -53,44 +65,55 @@ class ReportController extends Controller
 
     public function productWise()
     {
+        $search = request()->search;
         $reports = Sold::select('product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'))
             ->with('product') // Assuming you have a relationship 'product'
             ->groupBy('product_id')
             ->latest();
-
-            if (request()->type) {
-                if (request()->type == 'pdf') {
-                    $reports = $reports->get();
-                    $pdf = PDF::loadView('report.productWisepdf', ['reports' => $reports])
-                        ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
-
-                    // Generate and download the PDF
-                    return $pdf->stream('file.pdf');
-                }
-            } else {
-                $reports = $reports->paginate(request()->per_page ?? 10);
+            if (request()->search) {
+                $reports = $reports->whereHas('product', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
             }
+        if (request()->type) {
+            if (request()->type == 'pdf') {
+                $reports = $reports->get();
+                $pdf = PDF::loadView('report.productWisepdf', ['reports' => $reports])
+                    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+                // Generate and download the PDF
+                return $pdf->stream('file.pdf');
+            }
+        } else {
+            $reports = $reports->paginate(request()->per_page ?? 10);
+        }
         return view('report.productWise', compact('reports'));
     }
 
     public function userWise()
     {
+        $search = request()->search;
         $reports = Sold::whereNotNull('user_id')->select('user_id', 'product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'))
             ->with('user')  // Assuming you have a relationship 'product'
             ->groupBy('user_id', 'product_id')  // Group by both user and product
             ->latest();
-            if (request()->type) {
-                if (request()->type == 'pdf') {
-                    $reports = $reports->get();
-                    $pdf = PDF::loadView('report.userWisepdf', ['reports' => $reports])
-                        ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
-
-                    // Generate and download the PDF
-                    return $pdf->stream('file.pdf');
-                }
-            } else {
-                $reports = $reports->paginate(request()->per_page ?? 10);
+            if (request()->search) {
+                $reports = $reports->whereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
             }
+        if (request()->type) {
+            if (request()->type == 'pdf') {
+                $reports = $reports->get();
+                $pdf = PDF::loadView('report.userWisepdf', ['reports' => $reports])
+                    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+                // Generate and download the PDF
+                return $pdf->stream('file.pdf');
+            }
+        } else {
+            $reports = $reports->paginate(request()->per_page ?? 10);
+        }
         return view('report.userWise', compact('reports'));
     }
 }

@@ -10,7 +10,12 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     public function index (){
-        $users=User::latest()->paginate(request()->per_page ?? 10);
+        $users=User::latest();
+        $search=request()->search;
+        if(request()->search){
+            $users=$users->where("name","LIKE","%".request()->search."%")->orWhere('email','like','%'.request()->search.'%');
+        }
+        $users=$users->paginate(request()->per_page ?? 10) ;
         $user=new User();
         return view('user.index',compact('users','user'));
     }
