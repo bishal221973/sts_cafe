@@ -1,0 +1,67 @@
+body{
+    background-color: aliceblue;
+    overflow: hidden;
+}
+.sidebar{
+    width: 0;
+    height: 100vh;
+    background-color: #0369a1;
+    position: sticky !important;
+    top: 0;
+}
+.sidebar.active{
+    min-width: 270px;
+    max-width: 270px;
+}
+.main-content{
+    width: 100%;
+    height: 100vh;
+}
+.navbar{
+    height: 60px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    position: sticky !important;
+    top: 0;
+    z-index: 999;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+.sidebar-menu{
+    padding: 14px 20px;
+}
+.sidebar-menu:hover{
+    background-color: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+}
+.main{
+    height: 100vh;
+    overflow-y: scroll;
+}
+.btn-add{
+    height: 40px;
+}
+
+
+
+
+
+#fileInput{
+    position: absolute;
+    z-index: -1;
+
+}
+.img-preview{
+    width: 100%;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-preview img{
+    height: 100px;
+}
