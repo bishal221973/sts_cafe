@@ -21,12 +21,14 @@
                 <div class="d-flex">
                     <x-per-page></x-per-page>
                 </div>
-                <x-table-component :headers="['S.N', 'Product', 'Unit Price','S.N. number', 'Date']">
+                <x-table-component :headers="['S.N', 'Product', 'Unit Price','Received Amount','Returned Amount','S.N. number', 'Date']">
                     @foreach ($reports as $report)
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $report->product->name }}</td>
                             <td>Rs. {{ $report->price }}</td>
+                            <td>Rs. {{ $report->received_amount ?? 0 }}</td>
+                            <td>Rs. {{ $report->returned_amount ?? 0 }}</td>
                             <td>{{ $report->sn_number }}</td>
                             <td>{{ $report->created_at->format('Y/m/d') }}</td>
                         </tr>

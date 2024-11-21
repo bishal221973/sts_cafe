@@ -19,19 +19,24 @@
             border-left: 1px solid #ccc;
             padding: 7px
         }
-        tr{
+
+        tr {
             border-bottom: 1px solid #ccc;
         }
-        .text-center{
+
+        .text-center {
             text-align: center;
         }
-        .m-0{
+
+        .m-0 {
             margin: 0;
         }
-        .p-0{
+
+        .p-0 {
             padding: 0
         }
-        i{
+
+        i {
             display: block;
             text-align: center;
             margin-bottom: 10px
@@ -40,14 +45,16 @@
 </head>
 
 <body>
-    <h1 class="text-center m-0 p-0">{{settings()->get('app_name_print', $default = 'STS Cinema')}}</h1>
-    <h5 class="text-center m-0 p-0">{{settings()->get('address', $default = 'Dhangadhi')}}</h5>
+    <h1 class="text-center m-0 p-0">{{ settings()->get('app_name_print', $default = 'STS Cinema') }}</h1>
+    <h5 class="text-center m-0 p-0">{{ settings()->get('address', $default = 'Dhangadhi') }}</h5>
     <i>(Daily Report)</i>
     <table>
         <tr>
             <th>S.N.</th>
             <th>Product</th>
-            <th>Price</th>
+            <th>Unit Price</th>
+            <th>Received Amount</th>
+            <th>Returned Amount</th>
             <th>Date</th>
         </tr>
         @foreach ($reports as $item)
@@ -55,6 +62,8 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->product->name }}</td>
                 <td>Rs. {{ $item->price }}</td>
+                <td>Rs. {{ $item->received_amount ?? 0 }}</td>
+                <td>Rs. {{ $item->returned_amount ?? 0 }}</td>
                 <td>{{ $item->created_at->format('Y/m/d') }}</td>
             </tr>
         @endforeach
