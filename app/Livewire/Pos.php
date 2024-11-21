@@ -21,7 +21,7 @@ class Pos extends Component
     public $purchasedItems1 = [];
     public $snNumber = null;
 
-    public $paidPrice=0;
+    public $receivedAmt;
 
     public function mount()
     {
@@ -129,11 +129,14 @@ class Pos extends Component
         $uniqueStr = settings()->get('sn_prefix', $default = null) . '-' . $this->snNumber;
         foreach ($this->purchasedItems as $item) {
             for ($i = 0; $i < $item['quantity']; $i++) {
+                $returned_amount=$this->receivedAmt - $item['product']->price;
                 Sold::create([
                     'product_id' => $item['product']->id,
                     'price' => $item['product']->price,
                     'sn_number' => $uniqueStr,
                     'user_id'=>auth()->user()->id,
+                    'received_amount'=>$this->receivedAmt,
+                    'returned_amount'=> $returned_amount > 0 ? $returned_amount : 0,
                 ]);
                 $product = Product::find($item['product']->id);
 

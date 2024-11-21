@@ -364,7 +364,7 @@
                                 <input type="hidden" value="{{ $totalPrice }}" name="" id="totalAmt">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label>Received Amt</label>
-                                    <input type="text" class="form-control" style="width: 150px" id="paidAmt">
+                                    <input type="text" class="form-control" wire:model="receivedAmt" style="width: 150px" id="paidAmt">
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label>Return</label>
