@@ -84,8 +84,8 @@
 .sub-menus a{
     color: #000;
 }
-.print-font-size1{
-    font-size: 14.5px;
+.print-font-size1, .pos-table td{
+    font-size: 43px;
 }
 .pos-table{
     width: 100%;
@@ -93,13 +93,11 @@
 .pos-table thead,.pos-table tbody{
     border-bottom: 2px solid #333;
 }
-.printable-bill{
-    width: 100%;
-}
 .text-small{
-    font-size: 10px;
+    font-size: 25px;
 }
 .printable-bill{
+margin-left:10px;
     display: none;
 }
 

@@ -21,6 +21,8 @@ class Pos extends Component
     public $purchasedItems1 = [];
     public $snNumber = null;
 
+    public $paidPrice=0;
+
     public function mount()
     {
         $this->categories = Category::all(); // Fetch all categories
