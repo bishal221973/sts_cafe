@@ -499,5 +499,10 @@ left:100px !importent;
     .broder-b{
         border-bottom: 3px solid #000;
     }
+    .checkbox1{
+        position: absolute;
+        right: 10px;
+        top: 10px
+    }
 </style>
 

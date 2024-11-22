@@ -36,8 +36,8 @@ class ReportController extends Controller
     public function monthly()
     {
         $search = request()->search;
-        $reports = Sold::latest()->with('product')->whereMonth('created_at', now()->month)  // Filters by current month
-            ->whereYear('created_at', now()->year);
+        $reports = Sold::latest()->with('product');  // Filters by current month
+            // ->whereYear('created_at', now()->year);
         if (request()->search) {
             $reports = $reports->whereHas('product', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');

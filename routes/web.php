@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ComboController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
@@ -97,4 +98,12 @@ Route::prefix('report')->group(function(){
     Route::get('normal-report-pdf',[ReportController::class,'normalPdf'])->name('report.normalPdf');
     Route::get('product-wise-report',[ReportController::class,'productWise'])->name('report.productWise');
     Route::get('user-wise-report',[ReportController::class,'userWise'])->name('report.userWise');
+});
+Route::prefix('combo')->group(function(){
+    Route::get('/',[ComboController::class,'index'])->name('combo.index');
+    Route::get('/create',[ComboController::class,'create'])->name('combo.create');
+    Route::post('store',[ComboController::class,'store'])->name('combo.store');
+    Route::get('{combo}/edit',[ComboController::class,'edit'])->name('combo.edit');
+    Route::put('{combo}/update',[ComboController::class,'update'])->name('combo.update');
+    Route::delete('{combo}/delete',[ComboController::class,'delete'])->name('combo.delete');
 });

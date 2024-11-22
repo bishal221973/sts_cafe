@@ -317,7 +317,7 @@
                     <div class="col-lg-5">
                         <h5 class="font-weight-bold">Selected items</h5>
 
-                        <div style="height:45vh">
+                        <div style="height:45vh;overflow-y:scroll">
                             @foreach ($purchasedItems as $purchasedItem)
                                 <div
                                     class="d-flex justify-content-between m-0 p-3 bg-white align-items-center rounded mb-2">

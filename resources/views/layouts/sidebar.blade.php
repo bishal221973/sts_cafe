@@ -32,6 +32,12 @@
         <span>Purchase</span>
     </a>
 @endcan
+{{-- @can('purchase') --}}
+    <a href="{{ route('combo.index') }}" class="text-white d-block px-3 rounded sidebar-menu">
+        <i class="fa-solid fa-cart-shopping mr-1"></i>
+        <span>Combo</span>
+    </a>
+{{-- @endcan --}}
 @can('stock')
     <a href="{{ route('purchase.stock') }}" class="text-white d-block px-3 rounded sidebar-menu">
         <i class="fa-solid fa-money-bill-trend-up mr-1"></i>

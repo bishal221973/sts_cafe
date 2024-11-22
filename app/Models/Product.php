@@ -18,4 +18,8 @@ class Product extends Model
     public function subCategory(){
         return $this->belongsTo(SubCategory::class);
     }
+
+    public function sub(){
+        return $this->hasMany(SubProduct::class,'combo_id','id');
+    }
 }
