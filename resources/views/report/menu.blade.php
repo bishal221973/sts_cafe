@@ -3,5 +3,6 @@
     <a href="{{route('report.monthly')}}" class="btn {{Route::currentRouteName() == 'report.monthly' ? 'btn-info text-white' : ''}}">Monthly Report</a>
     <a href="{{route('report.productWise')}}" class="btn {{Route::currentRouteName() == 'report.productWise' ? 'btn-info text-white' : ''}}">Product wise Report</a>
     <a href="{{route('report.userWise')}}" class="btn {{Route::currentRouteName() == 'report.userWise' ? 'btn-info text-white' : ''}}">User wise Report</a>
+    <a href="{{route('report.cancelReport')}}" class="btn {{Route::currentRouteName() == 'report.cancelReport' ? 'btn-info text-white' : ''}}">Cancel Report</a>
     {{-- <a href="#">SN wise Report</a> --}}
 </div>

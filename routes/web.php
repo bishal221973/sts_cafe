@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SoldController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -98,6 +99,7 @@ Route::prefix('report')->group(function(){
     Route::get('normal-report-pdf',[ReportController::class,'normalPdf'])->name('report.normalPdf');
     Route::get('product-wise-report',[ReportController::class,'productWise'])->name('report.productWise');
     Route::get('user-wise-report',[ReportController::class,'userWise'])->name('report.userWise');
+    Route::get('concel-report',[ReportController::class,'cancelReport'])->name('report.cancelReport');
 });
 Route::prefix('combo')->group(function(){
     Route::get('/',[ComboController::class,'index'])->name('combo.index');
@@ -112,6 +114,7 @@ Route::prefix('combo')->group(function(){
     Route::delete('{subProduct}/delete/product',[ComboController::class,'productDelete'])->name('combo.productDelete');
     Route::post('add/product',[ComboController::class,'addProduct'])->name('combo.addProduct');
 
+    Route::delete('cancel-bill/{sn_number}',[SoldController::class,'cancel'])->name('bill.cancel');
 
 
 });

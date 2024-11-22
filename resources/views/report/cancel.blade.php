@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-between align-items-center notPrint">
             @include('report.menu')
             <div class="d-flex">
-                <a href="{{ route('report.normal') }}?type=pdf" class="btn text-dark"><i class="fa fa-file mr-2"></i>PDF</a>
+                <a href="{{ route('report.cancelReport') }}?type=pdf" class="btn text-dark"><i class="fa fa-file mr-2"></i>PDF</a>
                 <button class="btn bg-transparent" id="btn-report-print"><i class="fa fa-print mr-2"></i>Print</button>
             </div>
         </div>

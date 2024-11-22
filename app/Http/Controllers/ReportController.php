@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cancel;
 use App\Models\Sold;
 use PDF;
 use Illuminate\Http\Request;
@@ -46,7 +47,6 @@ class ReportController extends Controller
 
         $totalPrice=$reports->sum('price');
         if (request()->type && request()->type == 'pdf') {
-            // return $pdf->stream('file.pdf');
             if (request()->type == 'pdf') {
                 $reports = $reports->get()->groupBy('sn_number');
                 $pdf = PDF::loadView('report.normalPdf', ['reports' => $reports,'totalPrice'=> $totalPrice])
@@ -60,11 +60,6 @@ class ReportController extends Controller
             $groupedReports = $reports->getCollection()->groupBy('sn_number');
         }
 
-        // Fetch the reports with pagination, then group them by 'sn_number'
-
-        // Group the reports by 'sn_number' after fetching
-
-        // Manually paginate the grouped collection
         $paginatedReports = new LengthAwarePaginator(
             $groupedReports->forPage($reports->currentPage(), $reports->perPage()),
             $groupedReports->count(),
@@ -74,36 +69,72 @@ class ReportController extends Controller
         );
         if (request()->type && request()->type == 'pdf') {
             return $paginatedReports;
-            // return $pdf->stream('file.pdf');
         }
         return view('report.normal', [
-            'reports' => $paginatedReports
+            'reports' => $paginatedReports,
+            'totalPrice'=>$totalPrice,
         ]);
     }
 
     public function monthly()
     {
+        // $search = request()->search;
+        // $reports = Sold::latest()->with('product');
+        // if (request()->search) {
+        //     $reports = $reports->whereHas('product', function ($q) use ($search) {
+        //         $q->where('name', 'like', '%' . $search . '%');
+        //     })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
+        // }
+        // if (request()->type) {
+        //     if (request()->type == 'pdf') {
+        //         $reports = $reports->get();
+        //         $pdf = PDF::loadView('report.monthlyPdf', ['reports' => $reports])
+        //             ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+        //         return $pdf->stream('file.pdf');
+        //     }
+        // } else {
+        //     $reports = $reports->paginate(request()->per_page ?? 10);
+        // }
+        // return view('report.monthly', compact('reports'));
+
         $search = request()->search;
-        $reports = Sold::latest()->with('product');  // Filters by current month
-        // ->whereYear('created_at', now()->year);
-        if (request()->search) {
+        $reports = Sold::latest()->with('product')->whereDate('created_at', today());
+
+        if ($search) {
             $reports = $reports->whereHas('product', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
             })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
         }
-        if (request()->type) {
+
+        $totalPrice=$reports->sum('price');
+        if (request()->type && request()->type == 'pdf') {
             if (request()->type == 'pdf') {
-                $reports = $reports->get();
-                $pdf = PDF::loadView('report.monthlyPdf', ['reports' => $reports])
+                $reports = $reports->get()->groupBy('sn_number');
+                $pdf = PDF::loadView('report.monthlyPdf', ['reports' => $reports,'totalPrice'=> $totalPrice])
                     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
-                // Generate and download the PDF
+
                 return $pdf->stream('file.pdf');
             }
         } else {
-            $reports = $reports->paginate(request()->per_page ?? 10);
+            $reports = $reports->paginate(request()->per_page ?? 10);  // Paginate the results first
+            $groupedReports = $reports->getCollection()->groupBy('sn_number');
         }
-        return view('report.monthly', compact('reports'));
+
+        $paginatedReports = new LengthAwarePaginator(
+            $groupedReports->forPage($reports->currentPage(), $reports->perPage()),
+            $groupedReports->count(),
+            $reports->perPage(),
+            $reports->currentPage(),
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+        if (request()->type && request()->type == 'pdf') {
+            return $paginatedReports;
+        }
+        return view('report.monthly', [
+            'reports' => $paginatedReports,
+            'totalPrice'=>$totalPrice,
+        ]);
     }
 
     public function normalPdf()
@@ -163,5 +194,46 @@ class ReportController extends Controller
             $reports = $reports->paginate(request()->per_page ?? 10);
         }
         return view('report.userWise', compact('reports'));
+    }
+
+    public function cancelReport(){
+        $search = request()->search;
+        $reports = Cancel::latest()->with('product');
+
+        if ($search) {
+            $reports = $reports->whereHas('product', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
+        }
+
+        $totalPrice=$reports->sum('price');
+        if (request()->type && request()->type == 'pdf') {
+            if (request()->type == 'pdf') {
+                $reports = $reports->get()->groupBy('sn_number');
+                $pdf = PDF::loadView('report.cancelPdf', ['reports' => $reports,'totalPrice'=> $totalPrice])
+                    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+
+                return $pdf->stream('file.pdf');
+            }
+        } else {
+            $reports = $reports->paginate(request()->per_page ?? 10);  // Paginate the results first
+            $groupedReports = $reports->getCollection()->groupBy('sn_number');
+        }
+
+        $paginatedReports = new LengthAwarePaginator(
+            $groupedReports->forPage($reports->currentPage(), $reports->perPage()),
+            $groupedReports->count(),
+            $reports->perPage(),
+            $reports->currentPage(),
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+        if (request()->type && request()->type == 'pdf') {
+            return $paginatedReports;
+        }
+        return view('report.cancel', [
+            'reports' => $paginatedReports,
+            'totalPrice'=>$totalPrice,
+        ]);
     }
 }

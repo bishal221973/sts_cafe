@@ -19,19 +19,24 @@
             border-left: 1px solid #ccc;
             padding: 7px
         }
-        tr{
+
+        tr {
             border-bottom: 1px solid #ccc;
         }
-        .text-center{
+
+        .text-center {
             text-align: center;
         }
-        .m-0{
+
+        .m-0 {
             margin: 0;
         }
-        .p-0{
+
+        .p-0 {
             padding: 0
         }
-        i{
+
+        i {
             display: block;
             text-align: center;
             margin-bottom: 10px
@@ -40,9 +45,9 @@
 </head>
 
 <body>
-    <h1 class="text-center m-0 p-0">{{settings()->get('app_name_print', $default = 'STS Cinema')}}</h1>
-    <h5 class="text-center m-0 p-0">{{settings()->get('address', $default = 'Dhangadhi')}}</h5>
-    <i>(Monthly Report)</i>
+    <h1 class="text-center m-0 p-0">{{ settings()->get('app_name_print', $default = 'STS Cinema') }}</h1>
+    <h5 class="text-center m-0 p-0">{{ settings()->get('address', $default = 'Dhangadhi') }}</h5>
+    <i>(Daily Report)</i>
     <table>
         <tr>
             <th>S.N.</th>
@@ -50,15 +55,15 @@
             <th>Number of products</th>
             <th>Price</th>
         </tr>
-        @foreach ($reports as $index=>$item)
+        @foreach ($reports as $index => $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $index }}</td>
-                            <td>{{$item->count()}}</td>
-                            <td>Rs. {{$item->sum('price')}}</td>
+                <td>{{ $item->count() }}</td>
+                <td>Rs. {{ $item->sum('price') }}</td>
             </tr>
         @endforeach
-        <tr  class="text-center">
+        <tr class="text-center">
             <td colspan="2">Total</td>
             <td colspan="2">Rs.{{$totalPrice}}</td>
         </tr>
