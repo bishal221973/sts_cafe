@@ -51,22 +51,22 @@
     <table>
         <tr>
             <th>S.N.</th>
-            <th>Product</th>
-            <th>Unit Price</th>
-            <th>Received Amount</th>
-            <th>Returned Amount</th>
-            <th>Date</th>
+            <th>Sn Number</th>
+            <th>Number of products</th>
+            <th>Price</th>
         </tr>
-        @foreach ($reports as $item)
+        @foreach ($reports as $index => $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->product->name }}</td>
-                <td>Rs. {{ $item->price }}</td>
-                <td>Rs. {{ $item->received_amount ?? 0 }}</td>
-                <td>Rs. {{ $item->returned_amount ?? 0 }}</td>
-                <td>{{ $item->created_at->format('Y/m/d') }}</td>
+                <td>{{ $index }}</td>
+                <td>{{ $item->count() }}</td>
+                <td>Rs. {{ $item->sum('price') }}</td>
             </tr>
         @endforeach
+        <tr class="text-center">
+            <td colspan="2">Total</td>
+            <td colspan="2">Rs.{{$totalPrice}}</td>
+        </tr>
     </table>
 </body>
 
