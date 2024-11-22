@@ -130,7 +130,8 @@
 
                                         </div>
                                         <div class="d-flex justify-content-between">
-                                            {{ now()->format('Y/m/d') }} {{ Carbon\Carbon::now('Asia/Kathmandu')->format('h:i A') }}
+                                            {{ now()->format('Y/m/d') }}
+                                            {{ Carbon\Carbon::now('Asia/Kathmandu')->format('h:i A') }}
                                             <small class="">Warning: Restriction of Permission by
                                                 Management</small>
                                         </div>
@@ -288,12 +289,37 @@
                     <div class="col-lg-7">
                         <div class="products-list row">
                             @foreach ($products as $product)
-                                <div class="col-lg-4">
-                                    <div class="product-item mb-3">
-                                        <img src="{{ asset('storage') . '/' . $product->image }}" alt="">
+                                <div class="col-lg-4 mb-1" style="height:150px">
+                                    <div class="product-item  mb-3">
+                                        @if ($product->sub->count() > 0)
+                                            <div class="pos-imgs">
+                                                @foreach ($product->sub as $index => $sub)
+                                                    @php
+                                                        $subProduct = App\Models\Product::find($sub->product_id);
+                                                    @endphp
+                                                    <img src="{{ asset('storage') . '/' . $subProduct->image }}"
+                                                        alt=""
+                                                        class="product-image{{ $product->sub->count() }}">
+                                                    @if ($index >=3)
+                                                        @php
+                                                            break;
+                                                        @endphp
+                                                    @endif
+                                                        @endforeach
+                                            </div>
+                                        @else
+                                            <img src="{{ asset('storage') . '/' . $product->image }}" alt="">
+                                        @endif
                                         <div class="hover-img">
                                             <span
-                                                class=" px-2 rounded m-2  text-center bg-danger text-white">{{ $product->stock }}</span>
+                                                class=" px-2 rounded m-2  text-center bg-danger text-white">
+                                                {{-- {{ $product->stock }} --}}
+                                                @if ($product->type == "combo")
+                                                    combo
+                                                @else
+                                                {{ $product->stock }}
+                                                @endif
+                                            </span>
                                         </div>
                                         <div class="product-hover">
                                             <h5 class=" px-2 rounded m-0 p-0 text-center text-white">
@@ -364,7 +390,8 @@
                                 <input type="hidden" value="{{ $totalPrice }}" name="" id="totalAmt">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label>Received Amt</label>
-                                    <input type="text" class="form-control" wire:model="receivedAmt" style="width: 150px" id="paidAmt">
+                                    <input type="text" class="form-control" wire:model="receivedAmt"
+                                        style="width: 150px" id="paidAmt">
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label>Return</label>
@@ -385,15 +412,15 @@
 @push('script')
     <script>
         $("#paidAmt").on('input', function() {
-            let totalAmt=$("#totalAmt").val();
-            let receivedAmt=$(this).val();
-            if(receivedAmt.length <= 0){
-                receivedAmt=0;
+            let totalAmt = $("#totalAmt").val();
+            let receivedAmt = $(this).val();
+            if (receivedAmt.length <= 0) {
+                receivedAmt = 0;
             }
-            let remainAmt=parseInt(receivedAmt) - parseInt(totalAmt);
-            if(parseInt(remainAmt) > 0){
+            let remainAmt = parseInt(receivedAmt) - parseInt(totalAmt);
+            if (parseInt(remainAmt) > 0) {
                 $("#returnAmt").text(remainAmt);
-            }else{
+            } else {
                 $("#returnAmt").text('0');
             }
         });

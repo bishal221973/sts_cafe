@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index(){
         $categories=Category::latest()->get();
         $subcategories=new SubCategory();
-        $products=Product::with('category','subCategory')->latest();
+        $products=Product::with('category','subCategory')->whereNull('type')->latest();
         $search=request()->search;
         if(request()->search){
             $products->where('name','LIKE','%'.request()->search.'%')->orWhereHas('category',function($query) use($search){

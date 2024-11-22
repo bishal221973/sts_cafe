@@ -106,4 +106,12 @@ Route::prefix('combo')->group(function(){
     Route::get('{combo}/edit',[ComboController::class,'edit'])->name('combo.edit');
     Route::put('{combo}/update',[ComboController::class,'update'])->name('combo.update');
     Route::delete('{combo}/delete',[ComboController::class,'delete'])->name('combo.delete');
+    Route::get('{combo}/products',[ComboController::class,'products'])->name('combo.products');
+
+
+    Route::delete('{subProduct}/delete/product',[ComboController::class,'productDelete'])->name('combo.productDelete');
+    Route::post('add/product',[ComboController::class,'addProduct'])->name('combo.addProduct');
+
+
+
 });

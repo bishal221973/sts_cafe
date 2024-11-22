@@ -140,3 +140,39 @@ margin-left:10px;
 .sub-menus::-webkit-scrollbar {
     display: none;  /* Safari and Chrome */
 }
+.pos-imgs {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+}
+.product-image1 {
+    width: 100%; /* Maintain aspect ratio */
+    object-fit: cover;
+    height: 150px; /* Set a fixed height */
+    object-fit: cover; /* Crop the image to fit the container */
+    margin: 5px; /* Space between images */
+}
+.product-image2 {
+    width: 50% !important; /* Maintain aspect ratio */
+    object-fit: cover;
+    height: 150px; /* Set a fixed height */
+    object-fit: cover; /* Crop the image to fit the container */
+ }
+
+ .product-image3 {
+    width: 50% !important; /* Maintain aspect ratio */
+    object-fit: cover;
+    height: 75px !important; /* Set a fixed height */
+    object-fit: cover; /* Crop the image to fit the container */
+ }
+
+ .product-image4 {
+    width: 50% !important; /* Maintain aspect ratio */
+    object-fit: cover;
+    height: 75px !important; /* Set a fixed height */
+    object-fit: cover; /* Crop the image to fit the container */
+ }

@@ -28,7 +28,7 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $products = Product::latest()->get();
+        $products = Product::whereNull('type')->latest()->get();
         $suppliers = Supplier::latest()->get();
         return view('purchase.create', compact('products', 'suppliers'));
     }
@@ -56,7 +56,7 @@ class PurchaseController extends Controller
 
     public function edit(Purchase $purchase)
     {
-        $products = Product::latest()->get();
+        $products = Product::whereNull('type')->latest()->get();
         $suppliers = Supplier::latest()->get();
         $purchases = Purchase::latest()->with('product', 'supplier')->paginate(request()->per_page ?? 10);
         return view('purchase.index', compact('purchases', 'purchase', 'products', 'suppliers'));
@@ -91,7 +91,7 @@ class PurchaseController extends Controller
         if (request()->search) {
             $products = $products->where("name", "LIKE", "%" . request()->search . "%")->orWhere('stock', request()->search);
         }
-        $products = $products->paginate(request()->per_page ?? 10);
+        $products = $products->whereNull('type')->paginate(request()->per_page ?? 10);
         return view('purchase.stock', compact('products'));
     }
 }

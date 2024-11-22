@@ -79,28 +79,22 @@ class Pos extends Component
     // }
     public function incrementPurchase($productId)
     {
-        // Find the product by ID
         $product = Product::find($productId);
-
         if ($product) {
-            // Check if the product is already in the purchased items
+            // dd($product);
             if (isset($this->purchasedItems[$productId])) {
-                // Check if there is enough stock to increment the quantity
-                if ($this->purchasedItems[$productId]['quantity'] < $product->stock) {
+                if ($this->purchasedItems[$productId]['quantity'] < $product->stock || $product->type == 'combo') {
                     $this->purchasedItems[$productId]['quantity']++;
                 } else {
-                    // Optionally handle case where stock is insufficient
                     session()->flash('error', 'Insufficient stock for ' . $product->name);
                 }
             } else {
-                // If the product is not yet in the purchasedItems array, add it with quantity 1
-                if ($product->stock > 0) {
+                if ($product->stock > 0 || $product->type == 'combo') {
                     $this->purchasedItems[$productId] = [
-                        'product' => $product, // Store the entire product object
-                        'quantity' => 1 // Set initial quantity to 1
+                        'product' => $product,
+                        'quantity' => 1
                     ];
                 } else {
-                    // Optionally handle case where product has no stock
                     session()->flash('error', 'Product ' . $product->name . ' is out of stock');
                 }
             }
@@ -124,9 +118,10 @@ class Pos extends Component
 
     public function sold()
     {
-        $this->snNumber = Str::random(8);
+        $this->snNumber = mt_rand(10000000, 99999999);
         session()->put('snNumber', $this->snNumber);
         $uniqueStr = settings()->get('sn_prefix', $default = null) . '-' . $this->snNumber;
+        // dd($this->snNumber);
         foreach ($this->purchasedItems as $item) {
             for ($i = 0; $i < $item['quantity']; $i++) {
                 $returned_amount=$this->receivedAmt - $item['product']->price;
@@ -138,11 +133,25 @@ class Pos extends Component
                     'received_amount'=>$this->receivedAmt,
                     'returned_amount'=> $returned_amount > 0 ? $returned_amount : 0,
                 ]);
-                $product = Product::find($item['product']->id);
-
-                $product->update([
-                    'stock' => ($product->stock - 1),
-                ]);
+                $product = Product::with('sub')->find($item['product']->id);
+                if ($product->type == 'combo') {
+                    foreach ($product->sub as $sub) {
+                        $mainProduct = Product::find($sub->product_id);
+                        if ($mainProduct->stock < $sub->qty) {
+                            $mainProduct->update([
+                                'stock' => 0,
+                            ]);
+                        } else {
+                            $mainProduct->update([
+                                'stock' => ($mainProduct->stock - $sub->qty),
+                            ]);
+                        }
+                    }
+                } else {
+                    $product->update([
+                        'stock' => ($product->stock - 1),
+                    ]);
+                }
             }
         }
         // $this->emit('saleCompleted');

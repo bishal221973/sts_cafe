@@ -1,38 +1,82 @@
 @extends('layouts.app')
 
 @section('content')
-        <div class="d-flex justify-content-between align-items-center">
-            <x-breadcrumb :items="[['title' => 'Combo', 'url' => null]]" />
+    <div class="d-flex justify-content-between align-items-center">
+        <x-breadcrumb :items="[['title' => 'Combo', 'url' => '/combo'], ['title' => 'manage combo item', 'url' => null]]" />
 
-            <a href="{{ route('combo.create') }}" class="btn btn-info btn-add">
-                <i class="fa fa-plus mr-2"></i>Add Combo
-            </a>
+        <button type="button" class="btn btn-info btn-add" data-toggle="modal" data-target="#exampleModalCenter">
+            <i class="fa fa-plus mr-2"></i>Add Combo Item
+        </button>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add new product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('combo.addProduct')}}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        @csrf
+                        <div class="form-group">
+                            <label for="">Product</label>
+                            <select name="product_id" class="form-control" id="">
+                                <option value="">Select product</option>
+                                @foreach ($products as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Qty</label>
+                           <input type="number" class="form-control" name="qty" id="">
+                        </div>
+                        <input type="text" name="combo_id" value="{{$combo->id}}">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="row px-3">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <x-table-component :headers="['S.N', 'Combo','Price','Category','Sub Category','Total products', 'Action']">
-                            @foreach ($combos as $combo)
-                                <tr class="text-center">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $combo->name }}</td>
+    </div>
+    <div class="row px-3">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-uppercase font-weight-bold">{{$combo->name}}</h5>
+                    <small class="text-danger d-block mb-4">Editing the item is not allowed. If you make a mistake, please delete the item and add it again.</small>
+                    <x-table-component :headers="['S.N', 'Product name', 'Qty', 'Action']">
+                        @foreach ($combo->sub as $combo)
+                            <tr class="text-center">
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $combo->product->name }}</td>
+                                <td>{{ $combo->qty }}</td>
+                                <td>
+                                    {{-- <x-edit-button url="{{ route('combo.productEdit', $combo) }}" /> --}}
+                                    <x-delete-button url="{{ route('combo.productDelete', $combo) }}" />
+                                </td>
+                                {{-- <td>{{ $combo->name }}</td>
                                     <td>{{ $combo->price }}</td>
                                     <td>{{ $combo->category->name }}</td>
                                     <td>{{ $combo->subCategory->name }}</td>
                                     <td><a href="{{route('combo.products',$combo)}}">{{ $combo->sub->count() }} Product(s)</a></td>
-                                    <td>
-                                        <x-edit-button url="{{ route('combo.edit', $combo) }}" />
-                                        <x-delete-button url="{{ route('combo.delete', $combo) }}" />
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </x-table-component>
-                        <x-pagination :data="$combos" />
-                    </div>
+                                     --}}
+                            </tr>
+                        @endforeach
+                    </x-table-component>
+                    {{-- <x-pagination :data="$combos" /> --}}
                 </div>
             </div>
         </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const checkboxes = document.querySelectorAll('.checkbox1');
