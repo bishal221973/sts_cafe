@@ -21,13 +21,21 @@
                 <div class="d-flex">
                     <x-per-page></x-per-page>
                 </div>
-                <x-table-component :headers="['S.N', 'Sn Number', 'Number of products', 'Price']">
+                <x-table-component :headers="['S.N', 'Sn Number', 'Number of products', 'Price','Cancel']">
                     @foreach ($reports as $index=>$report)
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{$index}}</td>
                             <td>{{$report->count()}}</td>
                             <td>Rs. {{$report->sum('price')}}</td>
+                            {{-- <td><a href="">Cancel</a> --}}
+                             <td>
+                                <form action="{{ route('bill.cancel', $index) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this bill?');">
+                                    @csrf
+                                    @method('delete') <!-- Use DELETE if you're canceling or removing the bill -->
+                                    <button type="submit" class="btn">Cancel</button>
+                                </form>
+                             </td>
                             {{-- <td>{{ $report->product->name }}</td>
                             <td>Rs. {{ $report->price }}</td>
                             <td>{{ $report->sn_number }}</td> --}}

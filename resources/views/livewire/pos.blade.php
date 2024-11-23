@@ -102,6 +102,11 @@
                                                 </div>
                                             </div>
 
+                                            {{-- @if ($item1['product']->type == 'combo')
+                                                @foreach ($item1['product']->sub as $sub)
+
+                                                @endforeach
+                                            @endif --}}
                                             @php
                                                 $total += $item1['product']->price * $item1['quantity'];
                                             @endphp

@@ -124,13 +124,14 @@ class Pos extends Component
         // dd($this->snNumber);
         foreach ($this->purchasedItems as $item) {
             for ($i = 0; $i < $item['quantity']; $i++) {
-                $returned_amount=$this->receivedAmt - $item['product']->price;
+                $amt=$this->receivedAmt ?? 0;
+                $returned_amount= $amt - $item['product']->price;
                 Sold::create([
                     'product_id' => $item['product']->id,
                     'price' => $item['product']->price,
                     'sn_number' => $uniqueStr,
                     'user_id'=>auth()->user()->id,
-                    'received_amount'=>$this->receivedAmt,
+                    'received_amount'=>$amt ?? 0,
                     'returned_amount'=> $returned_amount > 0 ? $returned_amount : 0,
                 ]);
                 $product = Product::with('sub')->find($item['product']->id);
