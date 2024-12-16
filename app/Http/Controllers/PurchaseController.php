@@ -41,8 +41,9 @@ class PurchaseController extends Controller
                 'supplier_id' => $request->supplier_id[$index],
                 'quantity' => $request->quantity[$index],
             ]);
-
-            Product::where('id', $request->product_id[$index])->update(['stock' => $request->quantity[$index]]);
+            $product = Product::where('id', $request->product_id[$index])->first();
+            $stock = $product->stock + $request->quantity[$index];
+            $product->update(['stock' => $stock]);
         }
 
         return redirect()->back()->with('success', 'New products purchased.');
