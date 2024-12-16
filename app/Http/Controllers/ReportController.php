@@ -45,11 +45,11 @@ class ReportController extends Controller
             })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
         }
 
-        $totalPrice=$reports->sum('price');
+        $totalPrice = $reports->sum('price');
         if (request()->type && request()->type == 'pdf') {
             if (request()->type == 'pdf') {
                 $reports = $reports->get()->groupBy('sn_number');
-                $pdf = PDF::loadView('report.normalPdf', ['reports' => $reports,'totalPrice'=> $totalPrice])
+                $pdf = PDF::loadView('report.normalPdf', ['reports' => $reports, 'totalPrice' => $totalPrice])
                     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
 
@@ -72,7 +72,7 @@ class ReportController extends Controller
         }
         return view('report.normal', [
             'reports' => $paginatedReports,
-            'totalPrice'=>$totalPrice,
+            'totalPrice' => $totalPrice,
         ]);
     }
 
@@ -98,19 +98,23 @@ class ReportController extends Controller
         // return view('report.monthly', compact('reports'));
 
         $search = request()->search;
-        $reports = Sold::latest()->with('product')->whereDate('created_at', today());
+        $reports = Sold::latest()->with('product')->whereMonth('created_at', date('m'))
 
+            ->whereYear('created_at', date('Y'));
+        if (request()->date) {
+            $reports = $reports->whereDate('created_at', request()->date); // Change this date as needed
+        }
         if ($search) {
             $reports = $reports->whereHas('product', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
             })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
         }
 
-        $totalPrice=$reports->sum('price');
+        $totalPrice = $reports->sum('price');
         if (request()->type && request()->type == 'pdf') {
             if (request()->type == 'pdf') {
                 $reports = $reports->get()->groupBy('sn_number');
-                $pdf = PDF::loadView('report.monthlyPdf', ['reports' => $reports,'totalPrice'=> $totalPrice])
+                $pdf = PDF::loadView('report.monthlyPdf', ['reports' => $reports, 'totalPrice' => $totalPrice])
                     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
 
@@ -133,7 +137,7 @@ class ReportController extends Controller
         }
         return view('report.monthly', [
             'reports' => $paginatedReports,
-            'totalPrice'=>$totalPrice,
+            'totalPrice' => $totalPrice,
         ]);
     }
 
@@ -145,10 +149,23 @@ class ReportController extends Controller
     public function productWise()
     {
         $search = request()->search;
-        $reports = Sold::select('product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'))
+        $reports = Sold::select(
+
+            'product_id',
+
+            DB::raw('SUM(price) as total_price'),
+
+            DB::raw('COUNT(*) as product_count'),
+
+            DB::raw('MAX(created_at) as latest_created_at') // Get the latest created_at for each product
+
+        )
+
             ->with('product') // Assuming you have a relationship 'product'
+
             ->groupBy('product_id')
-            ->latest();
+
+            ->orderBy(DB::raw('MAX(created_at)'), 'desc');
         if (request()->search) {
             $reports = $reports->whereHas('product', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
@@ -172,10 +189,11 @@ class ReportController extends Controller
     public function userWise()
     {
         $search = request()->search;
-        $reports = Sold::whereNotNull('user_id')->select('user_id', 'product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'))
+        $reports = Sold::whereNotNull('user_id')->select('user_id', 'product_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(*) as product_count'), DB::raw('MAX(created_at) as latest_created_at'))
             ->with('user')  // Assuming you have a relationship 'product'
             ->groupBy('user_id', 'product_id')  // Group by both user and product
-            ->latest();
+            // ->latest();
+            ->orderBy(DB::raw('MAX(created_at)'), 'desc');
         if (request()->search) {
             $reports = $reports->whereHas('user', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
@@ -196,7 +214,8 @@ class ReportController extends Controller
         return view('report.userWise', compact('reports'));
     }
 
-    public function cancelReport(){
+    public function cancelReport()
+    {
         $search = request()->search;
         $reports = Cancel::latest()->with('product');
 
@@ -206,11 +225,11 @@ class ReportController extends Controller
             })->orWhere('price', $search)->orWhere('sn_number', 'like', '%' . $search . '%');
         }
 
-        $totalPrice=$reports->sum('price');
+        $totalPrice = $reports->sum('price');
         if (request()->type && request()->type == 'pdf') {
             if (request()->type == 'pdf') {
                 $reports = $reports->get()->groupBy('sn_number');
-                $pdf = PDF::loadView('report.cancelPdf', ['reports' => $reports,'totalPrice'=> $totalPrice])
+                $pdf = PDF::loadView('report.cancelPdf', ['reports' => $reports, 'totalPrice' => $totalPrice])
                     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
 
@@ -233,7 +252,7 @@ class ReportController extends Controller
         }
         return view('report.cancel', [
             'reports' => $paginatedReports,
-            'totalPrice'=>$totalPrice,
+            'totalPrice' => $totalPrice,
         ]);
     }
 }

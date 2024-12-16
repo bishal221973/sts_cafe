@@ -26,15 +26,32 @@
             @endif
         </form>
     </div>
-    <div class="d-flex noPrint">
-        <form action="{{ route(Route::currentRouteName()) }}">
-            <div class="d-flex">
-                @if (request('per_page'))
-                    <input type="hidden" value="{{ request('per_page') ?? '' }}" name="per_page">
-                @endif
-                <input type="text" class="form-control" name="search" value="{{ request('search') ?? '' }}">
-                <button class="btn btn-secondary ml-1"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <div class="d-flex">
+        @if (Route::currentRouteName() == 'report.monthly')
+
+            <div class="d-flex noPrint mr-3">
+                <form action="{{ route(Route::currentRouteName()) }}">
+                    <div class="d-flex">
+                        @if (request('per_page'))
+                            <input type="hidden" value="{{ request('per_page') ?? '' }}" name="per_page">
+                        @endif
+                        <input type="date" class="form-control" name="date" value="{{ request('date') ?? '' }}">
+                        <button class="btn btn-secondary ml-1"><i class="fa-solid fa-filter"></i> Filter</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        @endif
+
+        <div class="d-flex noPrint">
+            <form action="{{ route(Route::currentRouteName()) }}">
+                <div class="d-flex">
+                    @if (request('per_page'))
+                        <input type="hidden" value="{{ request('per_page') ?? '' }}" name="per_page">
+                    @endif
+                    <input type="text" class="form-control" name="search" value="{{ request('search') ?? '' }}">
+                    <button class="btn btn-secondary ml-1"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
