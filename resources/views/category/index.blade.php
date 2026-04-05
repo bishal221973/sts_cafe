@@ -16,7 +16,8 @@
                         <div class="form-group">
                             <div style="line-height:10px" class="mb-3">
                                 <label>Category name <span class="text-danger">*</span></label>
-                            <small class="d-block text-secondary">Category name helps group related items together.</small>
+                                <small class="d-block text-secondary">Category name helps group related items
+                                    together.</small>
                             </div>
                             <input type="text" class="form-control" value="{{ old('name', $category->name) }}"
                                 name="name" placeholder="Category name">
@@ -43,11 +44,17 @@
                             </button>
                         </div>
                     @endif
-                    <x-table-component :headers="['S.N', 'Category Name', 'Action']">
+                    <x-table-component :headers="[
+                        'id' => 'S.N',
+                        'name' => 'Category Name',
+                        'subCategories' => 'Sub Categories',
+                        'action' => 'Action',
+                    ]" :sortable="['name']">
                         @foreach ($categories as $category)
-                            <tr class="text-center">
+                            <tr class="text-center {{ $loop->even ? 'bg-light' : '' }}">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $category->name }}</td>
+                                <td>{{ $category?->sub_categories?->count() ?? 0 }}</td>
                                 <td>
                                     <x-edit-button url="{{ route('category.edit', $category) }}" />
                                     <x-delete-button url="{{ route('category.delete', $category) }}" />

@@ -567,5 +567,19 @@ left:100px !importent;
         transform: translateY(-4px);
         box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     }
+    .text-decoration-none:hover{
+        text-decoration: none;
+    }
+
+    .table tbody tr {
+        transition: all 0.25s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f2f2f2 !important;
+        transform: scale(1.01);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        cursor: pointer;
+    }
 </style>
 

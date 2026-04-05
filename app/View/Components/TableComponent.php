@@ -11,11 +11,15 @@ class TableComponent extends Component
     /**
      * Create a new component instance.
      */
-    public array $headers;
-     public function __construct(array $headers)
+   public array $headers;
+    public array $sortable;
+
+    public function __construct(array $headers, array $sortable = [])
     {
         $this->headers = $headers;
+        $this->sortable = $sortable;
     }
+
 
     /**
      * Get the view / contents that represent the component.
