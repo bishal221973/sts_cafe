@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $query = Category::with('subCategories');
+        $query = Category::with('subCategories','products');
 
         // 🔍 Search
         if (request()->search) {
@@ -46,11 +46,25 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        $categories = Category::latest();
+        $query = Category::with('subCategories','products');
+
+        // 🔍 Search
         if (request()->search) {
-            $categories = $categories->where("name", "LIKE", "%" . request()->search . "%");
+            $query->where("name", "LIKE", "%" . request()->search . "%");
         }
-        $categories = $categories->paginate(request()->per_page ?? 10);
+        $allowedSorts = ['id', 'name'];
+
+        $sortBy = request('sort_by', 'id');
+        $sortOrder = request('sort_order', 'desc');
+
+        if (in_array($sortBy, $allowedSorts)) {
+            $query->orderBy($sortBy, $sortOrder);
+        } else {
+            $query->latest();
+        }
+
+        $categories = $query->paginate(request()->per_page ?? 10)
+            ->appends(request()->query());
         return view('category.index', [
             'categories' => $categories,
             'category' => $category,

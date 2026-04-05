@@ -10,15 +10,41 @@ class SubCategoryController extends Controller
 {
     public function index()
     {
-        $search=request()->search;
         $categories = Category::latest()->get();
-        $subcategories = SubCategory::with('category')->latest();
-        if (request()->search) {
-            $subcategories = $subcategories->where('name', 'LIKE', '%' . request()->search . '%')->orWhereHas('category',function($query) use($search){
-                $query->where('name','like','%'.$search.'%');
+        $search = request()->search;
+
+        $subcategories = SubCategory::with('category', 'products')
+            ->select('sub_categories.*')
+            ->join('categories', 'categories.id', '=', 'sub_categories.category_id')
+            ->latest('sub_categories.created_at');
+
+        // 🔍 Search
+        if ($search) {
+            $subcategories->where(function ($query) use ($search) {
+                $query->where('sub_categories.name', 'LIKE', "%{$search}%")
+                    ->orWhere('categories.name', 'LIKE', "%{$search}%");
             });
         }
-        $subcategories = $subcategories->paginate(request()->per_page ?? 10);
+
+        // 🔄 Sorting
+        $sortBy = request('sort_by', 'sub_categories.created_at');
+        $sortOrder = request('sort_order', 'desc');
+
+        $allowedSorts = [
+            'name' => 'sub_categories.name',
+            'category' => 'categories.name',
+            'created_at' => 'sub_categories.created_at',
+        ];
+
+        if (isset($allowedSorts[$sortBy])) {
+            $subcategories->orderBy($allowedSorts[$sortBy], $sortOrder);
+        } else {
+            $subcategories->orderBy('sub_categories.created_at', 'desc');
+        }
+
+        // 📄 Pagination
+        $subcategories = $subcategories->paginate(request()->per_page ?? 10)
+            ->appends(request()->query());
         return view('subCategory.index', [
             'categories' => $categories,
             'subCategory' => new SubCategory(),
@@ -37,12 +63,12 @@ class SubCategoryController extends Controller
     }
     public function edit(SubCategory $subCategory)
     {
-        $search=request()->search;
+        $search = request()->search;
         $categories = Category::latest()->get();
-        $subcategories = SubCategory::with('category')->latest();
+        $subcategories = SubCategory::with('category','products')->latest();
         if (request()->search) {
-            $subcategories = $subcategories->where('name', 'LIKE', '%' . request()->search . '%')->orWhereHas('category',function($query) use($search){
-                $query->where('name','like','%'.$search.'%');
+            $subcategories = $subcategories->where('name', 'LIKE', '%' . request()->search . '%')->orWhereHas('category', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
             });
         }
         $subcategories = $subcategories->paginate(request()->per_page ?? 10);

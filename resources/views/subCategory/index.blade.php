@@ -3,9 +3,9 @@
 @section('content')
     <x-breadcrumb :items="[['title' => 'Category', 'url' => null]]" />
 
-    <div class="row px-3">
+    <div class="row px-3" style="margin-top: -13px">
         <div class="col-lg-4">
-            <div class="card">
+            <div class="card card-animate border-0">
                 <div class="card-body">
                     <form
                         action="{{ $subCategory->id ? route('subCategory.update', $subCategory) : route('subCategory.store') }}"
@@ -15,7 +15,12 @@
                             @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>category <span class="text-danger">*</span></label>
+                            <div style="line-height: 10px" class="mb-2">
+                                <label>category <span class="text-danger">*</span></label>
+                                <small class="d-block text-secondary mb-1">
+                                    Select a category to group this item.
+                                </small>
+                            </div>
                             <select name="category_id" class="form-control">
                                 <option value="">Select category</option>
                                 @foreach ($categories as $category)
@@ -29,7 +34,12 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Category name <span class="text-danger">*</span></label>
+                            <div style="line-height: 10px" class="mb-2">
+                                <label>Category name <span class="text-danger">*</span></label>
+                                <small class="d-block text-secondary mb-1">
+                                    Enter a clear and unique subcategory name.
+                                </small>
+                            </div>
                             <input type="text" class="form-control" value="{{ old('name', $subCategory->name) }}"
                                 name="name" placeholder="Category name">
                             @error('name')
@@ -42,7 +52,7 @@
             </div>
         </div>
         <div class="col-lg-8">
-            <div class="card">
+            <div class="card card-animate border-0">
                 <div class="card-body">
                     @if (!$subCategory->id)
                         <div class="d-flex">
@@ -55,12 +65,19 @@
                             </button>
                         </div>
                     @endif
-                    <x-table-component :headers="['S.N', 'Category', 'Sub Category', 'Action']">
+                    <x-table-component :headers="[
+                        'id' => 'S.N',
+                        'category' => 'Category',
+                        'name' => 'Sub Category',
+                        'products' => 'Products',
+                        'action' => 'Action',
+                    ]">
                         @foreach ($subcategories as $subcategory)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $subcategory->category->name }}</td>
                                 <td>{{ $subcategory->name }}</td>
+                                <td>{{ $subcategory->products->count() }}</td>
                                 <td>
                                     <x-edit-button url="{{ route('subCategory.edit', $subcategory) }}" />
                                     <x-delete-button url="{{ route('subCategory.delete', $subcategory) }}" />

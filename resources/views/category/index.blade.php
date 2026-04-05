@@ -3,7 +3,7 @@
 @section('content')
     <x-breadcrumb :items="[['title' => 'Category', 'url' => null]]" />
 
-    <div class="row px-3">
+    <div class="row px-3" style="margin-top: -13px">
         <div class="col-lg-4">
             <div class="card border-0 card-animate">
                 <div class="card-body">
@@ -48,13 +48,15 @@
                         'id' => 'S.N',
                         'name' => 'Category Name',
                         'subCategories' => 'Sub Categories',
+                        'products' => 'Products',
                         'action' => 'Action',
-                    ]" :sortable="['name']">
+                    ]">
                         @foreach ($categories as $category)
                             <tr class="text-center {{ $loop->even ? 'bg-light' : '' }}">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $category->name }}</td>
-                                <td>{{ $category?->sub_categories?->count() ?? 0 }}</td>
+                                <td>{{ $category?->subCategories?->count() }}</td>
+                                <td>{{ $category?->products?->count() }}</td>
                                 <td>
                                     <x-edit-button url="{{ route('category.edit', $category) }}" />
                                     <x-delete-button url="{{ route('category.delete', $category) }}" />

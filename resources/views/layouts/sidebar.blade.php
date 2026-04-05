@@ -3,13 +3,13 @@
     <span>Home</span>
 </a>
 @can('category')
-    <a href="{{ route('category.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('category.index') ? 'active' : '' }}">
+    <a href="{{ route('category.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('category.index','category.edit') ? 'active' : '' }}">
         <i class="fa-solid fa-boxes-stacked mr-1"></i>
         <span>Category</span>
     </a>
 @endcan
 @can('subcategory')
-    <a href="{{ route('subCategory.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('subCategory.index') ? 'active' : '' }}">
+    <a href="{{ route('subCategory.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('subCategory.index','subCategory.edit') ? 'active' : '' }}">
         <i class="fa-solid fa-shield-halved mr-1"></i>
         <span>Sub Category</span>
     </a>
