@@ -39,6 +39,9 @@
 
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 <style>
+    #app{
+        background-color: #fdfdfd !important;
+    }
     .time-list {
         position: relative;
         height: 80px;
@@ -503,6 +506,55 @@ left:100px !importent;
         position: absolute;
         right: 10px;
         top: 10px
+    }
+
+    .login-container{
+        background-image: url('/123.png');
+        height: 100vh;
+        width: 100vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .lgin-card{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.7)
+    }
+    .login-container-card{
+        width: 60%;
+        border-radius: 40px;
+        overflow: hidden;
+    }
+    
+    .login-cards{
+        background: linear-gradient(0deg, #4facfe, #3263F7);
+        border: none !important;
+        border-radius: 40px
+    }
+    .coffiee-img{
+        width: 75%;
+        margin-top: 20px
+    }
+    .login-input{
+        width: 100%;
+        background-color: #f2f2f2;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        gap: 10px
+    }
+    .login-input input{
+        width: 100%;
+        background-color: #f2f2f2;
+        border: none;
+    }
+    .login-input input:focus{
+        outline: none;
     }
 </style>
 

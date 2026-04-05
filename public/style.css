@@ -31,10 +31,14 @@ body{
 }
 .sidebar-menu{
     padding: 14px 20px;
+    margin-bottom: 5px;
 }
 .sidebar-menu:hover{
     background-color: rgba(255, 255, 255, 0.15);
     text-decoration: none;
+}
+.sidebar-menu.active{
+    background-color: rgba(255, 255, 255, 0.15) !important;
 }
 .main{
     height: 100vh;
@@ -73,3 +77,65 @@ body{
         display: block !important;
     }
 }
+
+
+
+<style>
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(180deg, #1e293b, #0f172a);
+    padding: 15px 10px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Hover Animation */
+.sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    transform: translateX(5px);
+}
+
+/* Active Item */
+.sidebar-item.active {
+    background: linear-gradient(135deg, #3263F7, #5a7cff);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(50, 99, 247, 0.4);
+}
+
+/* Left indicator animation */
+.sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background: #3263F7;
+    border-radius: 5px;
+}
+
+/* Icon */
+.sidebar-item i {
+    font-size: 16px;
+}
+
+/* Text */
+.sidebar-item span {
+    font-size: 14px;
+    font-weight: 500;
+}
+</style>
