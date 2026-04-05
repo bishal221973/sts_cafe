@@ -45,13 +45,13 @@
     </a>
 @endcan
 @can('user')
-    <a href="{{ route('user.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('user.index') ? 'active' : '' }}">
+    <a href="{{ route('user.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('user.index','user.show','user.edit') ? 'active' : '' }}">
         <i class="fa-solid fa-users mr-1"></i>
         <span>User</span>
     </a>
 @endcan
 @can('report')
-    <a href="{{ route('report.normal') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('report.normal') ? 'active' : '' }}">
+    <a href="{{ route('report.normal') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('report.normal','report.monthly','report.productWise','report.userWise','report.cancelReport') ? 'active' : '' }}">
         <i class="fa-solid fa-file mr-1"></i>
         <span>Report</span>
     </a>

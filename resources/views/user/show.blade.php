@@ -2,10 +2,10 @@
 @section('content')
     <x-breadcrumb :items="[['title' => 'User', 'url' => route('user.index')], ['title' => 'Show', 'url' => null]]" />
 
-    <div class="p-3">
+    <div class="p-3" style="margin-top: -25px">
         <div class="row">
             <div class="col-lg-5">
-                <div class="card">
+                <div class="card card-animate border-0">
                     <div class="card-body">
                         <div class="d-flex justify-content-center mb-3">
                             <img src="{{asset('user.png')}}" width="100px" alt="">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-lg-7">
-                <div class="card mb-3">
+                <div class="card mb-3 card-animate border-0">
                     <div class="card-body">
                         <b>Change Password</b>
                         <form action="{{ route('user.changePassword', $user) }}" method="POST">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card card-animate border-0">
                     <div class="card-body">
                         <b>User Permissions</b>
                         <form action="{{ route('user.permission', $user) }}" method="POST">

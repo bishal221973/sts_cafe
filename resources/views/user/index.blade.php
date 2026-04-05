@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <x-breadcrumb :items="[['title' => 'User', 'url' => null]]" />
-    <div class="p-3">
+    <div class="px-3" style="margin-top: -13px">
         <div class="row">
             <div class="col-lg-4">
-                <div class="card">
+                <div class="card card-animate border-0">
                     <div class="card-body">
                         <form action="{{ $user->id ? route('user.update', $user) : route('user.store') }}" method="POST">
                             @csrf
@@ -27,18 +27,20 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label>Password <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" name="password">
-                                @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            @if (!$user?->id)
+                                <div class="form-group">
+                                    <label>Password <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" name="password">
+                                    @error('password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirmed password <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" name="password_confirmation">
+                                </div>
+                            @endif
 
-                            <div class="form-group">
-                                <label>Confirmed password <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" name="password_confirmation">
-                            </div>
                             <div class="form-group">
                                 <button class="btn btn-info w-100">{{ $user->id ? 'Update' : 'Save' }}</button>
                             </div>
@@ -48,7 +50,7 @@
             </div>
 
             <div class="col-lg-8">
-                <div class="card">
+                <div class="card card-animate border-0">
                     <div class="card-body">
                         @if (!$user->id)
                             <div class="d-flex">
