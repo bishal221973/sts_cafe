@@ -16,14 +16,15 @@
         @endpush
     @endif
 
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center pr-3">
         <x-breadcrumb :items="[['title' => 'Purchase', 'url' => null]]" />
-        <a href="{{ route('purchase.create') }}" class="btn btn-info btn-add">
+        <a href="{{ route('purchase.create') }}" class="btn btn-info btn-add card-animate">
             <i class="fa fa-plus mr-2"></i>Purchase Products
         </a>
     </div>
 
-    <div class="card">
+   <div class="px-3">
+     <div class="card card-animate border-0">
         <div class="card-body">
             @if (!$purchase->id)
                 <div class="d-flex">
@@ -53,6 +54,7 @@
             <x-pagination :data="$purchases" />
         </div>
     </div>
+   </div>
 
 
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"

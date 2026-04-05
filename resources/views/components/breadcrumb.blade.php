@@ -1,5 +1,5 @@
-<nav aria-label="breadcrumb " class="notPrint">
-    <ol class="breadcrumb bg-transparent align-items-center">
+<nav aria-label="breadcrumb " class="notPrint d-flex align-items-center">
+    <ol class="breadcrumb bg-transparent d-flex align-items-center">
         <li class="breadcrumb-item">
         <a href="{{route('home')}}"><i class="fa fa-home pr-2"></i>Home</a>
         </li>

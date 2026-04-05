@@ -15,13 +15,13 @@
     </a>
 @endcan
 @can('product')
-    <a href="{{ route('product.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('product.index') ? 'active' : '' }}">
+    <a href="{{ route('product.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('product.index','product.edit') ? 'active' : '' }}">
         <i class="fa-solid fa-bread-slice mr-1"></i>
         <span>Product</span>
     </a>
 @endcan
 @can('supplier')
-    <a href="{{ route('supplier.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('supplier.index') ? 'active' : '' }}">
+    <a href="{{ route('supplier.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('supplier.index','supplier.edit') ? 'active' : '' }}">
         <i class="fa-solid fa-truck-field mr-1"></i>
         <span>Supplier</span>
     </a>

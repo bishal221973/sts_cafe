@@ -5,7 +5,8 @@
         <x-breadcrumb :items="[['title' => 'Purchase', 'url' => null], ['title' => 'Create', 'url' => null]]" />
     </div>
 
-    <div class="card">
+    <div class="pl-3">
+        <div class="card card-animate border-0" style="margin-top: -13px">
         <div class="card-body">
             <!-- List of cloned products -->
             <form action="{{route('purchase.store')}}" method="POST">
@@ -55,6 +56,7 @@
 
             <!-- Button to add new products -->
         </div>
+    </div>
     </div>
 @endsection
 

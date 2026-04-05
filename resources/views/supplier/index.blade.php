@@ -19,7 +19,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <x-breadcrumb :items="[['title' => 'Supplier', 'url' => null]]" />
 
-        <button type="button" class="btn btn-info btn-add" data-toggle="modal" data-target="#exampleModalCenter">
+        <button type="button" class="btn btn-info btn-add card-animate" data-toggle="modal" data-target="#exampleModalCenter">
             <i class="fa fa-plus mr-2"></i>Add Supplier
         </button>
     </div>
@@ -30,7 +30,7 @@
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content card-animate">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Add new supplier</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -124,7 +124,7 @@
 
     <div class="row px-3">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-animate border-0">
                 <div class="card-body">
                     @if (!$supplier->id)
                         <div class="d-flex">
