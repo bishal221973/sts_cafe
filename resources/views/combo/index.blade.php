@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center pr-3">
             <x-breadcrumb :items="[['title' => 'Combo', 'url' => null]]" />
 
-            <a href="{{ route('combo.create') }}" class="btn btn-info btn-add">
+            <a href="{{ route('combo.create') }}" class="btn btn-info btn-add card-animate">
                 <i class="fa fa-plus mr-2"></i>Add Combo
             </a>
         </div>
         <div class="row px-3">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card card-animate border-0">
                     <div class="card-body">
                         <x-table-component :headers="['S.N', 'Combo','Price','Category','Sub Category','Total products', 'Action']">
                             @foreach ($combos as $combo)

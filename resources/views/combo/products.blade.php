@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center pr-3">
         <x-breadcrumb :items="[['title' => 'Combo', 'url' => '/combo'], ['title' => 'manage combo item', 'url' => null]]" />
 
-        <button type="button" class="btn btn-info btn-add" data-toggle="modal" data-target="#exampleModalCenter">
+        <button type="button" class="btn btn-info btn-add card-animate" data-toggle="modal" data-target="#exampleModalCenter">
             <i class="fa fa-plus mr-2"></i>Add Combo Item
         </button>
     </div>
@@ -36,7 +36,7 @@
                             <label for="">Qty</label>
                            <input type="number" class="form-control" name="qty" id="">
                         </div>
-                        <input type="text" name="combo_id" value="{{$combo->id}}">
+                        <input type="hidden"  name="combo_id" value="{{$combo->id}}">
 
                     </div>
                     <div class="modal-footer">
@@ -49,7 +49,7 @@
     </div>
     <div class="row px-3">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-animate border-0">
                 <div class="card-body">
                     <h5 class="text-uppercase font-weight-bold">{{$combo->name}}</h5>
                     <small class="text-danger d-block mb-4">Editing the item is not allowed. If you make a mistake, please delete the item and add it again.</small>

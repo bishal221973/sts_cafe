@@ -27,13 +27,13 @@
     </a>
 @endcan
 @can('purchase')
-    <a href="{{ route('purchase.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('purchase.index') ? 'active' : '' }}">
+    <a href="{{ route('purchase.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('purchase.index','purchase.create') ? 'active' : '' }}">
         <i class="fa-solid fa-cart-shopping mr-1"></i>
         <span>Purchase</span>
     </a>
 @endcan
 {{-- @can('purchase') --}}
-    <a href="{{ route('combo.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('combo.index') ? 'active' : '' }}">
+    <a href="{{ route('combo.index') }}" class="text-white d-block px-3 rounded sidebar-menu {{ request()->routeIs('combo.index','combo.create','combo.edit','combo.products') ? 'active' : '' }}">
         <i class="fa-solid fa-cart-shopping mr-1"></i>
         <span>Combo</span>
     </a>

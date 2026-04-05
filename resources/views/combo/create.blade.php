@@ -10,7 +10,7 @@
         @endisset
         <div class="row px-3">
             <div class="{{ $combo->id ? 'col-lg-12' : 'col-lg-8' }}">
-                <div class="card">
+                <div class="card card-animate border-0">
                     <div class="card-body">
                         <form action="">
                             <div class="row">
@@ -104,7 +104,7 @@
             </div>
             @if (!$combo->id)
                 <div class="col-lg-4">
-                    <div class="card">
+                    <div class="card card-animate border-0">
                         <div class="card-body">
                             <h5>Selected Items</h5>
                             <div id="selected-items">
