@@ -40,7 +40,7 @@
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 <style>
     #app{
-        background-color: #fdfdfd !important;
+        background-color: #f7f7f7 !important;
     }
     .time-list {
         position: relative;
@@ -555,6 +555,17 @@ left:100px !importent;
     }
     .login-input input:focus{
         outline: none;
+    }
+
+    .card-animate {
+        border-radius: 14px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+
+    .card-animate:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     }
 </style>
 

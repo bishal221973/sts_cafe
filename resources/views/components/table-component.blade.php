@@ -1,7 +1,7 @@
 
 
 <table class="table table-hover">
-    <thead>
+    <thead style="background-color: #f2f2f2">
         <tr class="text-center">
             @foreach ($headers as $header)
                 <th>{{ $header }}</th>
@@ -9,13 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        {{-- @foreach ($rows as $row)
-            <tr>
-                @foreach ($row as $cell)
-                    <td>{{ $cell }}</td>
-                @endforeach
-            </tr>
-        @endforeach --}}
+       
         {{$slot}}
     </tbody>
   </table>

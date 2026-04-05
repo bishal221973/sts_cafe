@@ -5,7 +5,7 @@
 
     <div class="row px-3">
         <div class="col-lg-4">
-            <div class="card">
+            <div class="card border-0 card-animate">
                 <div class="card-body">
                     <form action="{{ $category->id ? route('category.update', $category) : route('category.store') }}"
                         method="POST">
@@ -14,7 +14,10 @@
                             @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Category name <span class="text-danger">*</span></label>
+                            <div style="line-height:10px" class="mb-3">
+                                <label>Category name <span class="text-danger">*</span></label>
+                            <small class="d-block text-secondary">Category name helps group related items together.</small>
+                            </div>
                             <input type="text" class="form-control" value="{{ old('name', $category->name) }}"
                                 name="name" placeholder="Category name">
                             @error('name')
@@ -27,7 +30,7 @@
             </div>
         </div>
         <div class="col-lg-8">
-            <div class="card">
+            <div class="card border-0 card-animate">
                 <div class="card-body">
                     @if (!$category->id)
                         <div class="d-flex">
